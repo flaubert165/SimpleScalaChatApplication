@@ -19,7 +19,6 @@ class HomeController @Inject()(cc: ControllerComponents, mqttService: MqttServic
    * a path of `/`.
    */
   def index = Action {
-    mqttService.send();
     Ok(views.html.index("Your new application is ready."))
   }
 
