@@ -1,22 +1,42 @@
 package services
 
 import com.google.inject.Inject
+import com.rabbitmq.client
+import com.rabbitmq.client.{AMQP, Channel, DefaultConsumer, Envelope}
 
 import scala.concurrent.{Future, Promise}
 
 class ChatService @Inject() (mqttService: MqttService){
 
-  def send(): Future[Boolean] ={
-    val promise = Promise[Boolean]
+  def send(): Future[String] ={
+
+    val promise = Promise[String]
 
     try{
 
+      val conn = (this.mqttService.getMqttConnection());
+      val channel: client.Channel = conn.createChannel();
+      channel.queueDeclare(MqttConfig.RABBITMQ_QUEUE, false, false, false, null);
+      channel.basicPublish("", MqttConfig.RABBITMQ_QUEUE, null, "Producer: Hello World! CARALEO".getBytes());
+
+      promise.success("hello world, porra!!!");
 
     }catch {
       case e: Throwable => promise.failure(e)
     }
 
     promise.future
+  }
+
+  def receive(channel: Channel) ={
+
+    val consumer = new DefaultConsumer(channel) {
+
+      override def handleDelivery(consumerTag: String, envelope: Envelope, properties: AMQP.BasicProperties, body: Array[Byte]): Unit ={
+        println("Consumer: " + helpers.Utils.fromBytes(body))
+      }
+    }
+    channel.basicConsume("porra/test", true, consumer)
   }
 
 }

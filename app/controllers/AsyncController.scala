@@ -21,13 +21,9 @@ class AsyncController @Inject()(cc: ControllerComponents, actorSystem: ActorSyst
    * will be called when the application receives a `GET` request with
    * a path of `/message`.
    */
-  /*def message = Action.async {
+  def message = Action.async {
 
     getFutureMessage(1.second).map { msg => Ok(msg) }
-  }*/
-
-  def message = Action.async {
-    this.mqttService.send().map { msg => Ok(msg) }
   }
 
   private def getFutureMessage(delayTime: FiniteDuration): Future[String] = {
