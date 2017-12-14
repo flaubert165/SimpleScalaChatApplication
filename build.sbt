@@ -16,8 +16,9 @@ libraryDependencies ++= Seq(
   ws,
   specs2 % Test,
   guice,
-  "com.rabbitmq" % "amqp-client" % "3.6.1",
-  "com.newmotion" %% "akka-rabbitmq" % "4.0.0"
+  "com.rabbitmq" % "amqp-client" % "4.0.0",
+  "com.newmotion" %% "akka-rabbitmq" % "4.0.0",
+  "org.mongodb.scala" %% "mongo-scala-driver" % "2.1.0"
 )
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  

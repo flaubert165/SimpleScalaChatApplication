@@ -17,7 +17,7 @@ class ChatService @Inject() (mqttService: MqttService){
       val conn = (this.mqttService.getMqttConnection());
       val channel: client.Channel = conn.createChannel();
       channel.queueDeclare(MqttConfig.RABBITMQ_QUEUE, false, false, false, null);
-      channel.basicPublish("", MqttConfig.RABBITMQ_QUEUE, null, "Producer: Hello World! CARALEO".getBytes());
+      channel.basicPublish(null, MqttConfig.RABBITMQ_QUEUE, null, "Producer: Hello World! CARALEO".getBytes());
 
       promise.success("hello world, porra!!!");
 
@@ -36,7 +36,7 @@ class ChatService @Inject() (mqttService: MqttService){
         println("Consumer: " + helpers.Utils.fromBytes(body))
       }
     }
-    channel.basicConsume("porra/test", true, consumer)
+    channel.basicConsume(MqttConfig.RABBITMQ_QUEUE, true, consumer)
   }
 
 }
