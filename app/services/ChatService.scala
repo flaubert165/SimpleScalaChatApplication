@@ -19,7 +19,7 @@ class ChatService @Inject() (mqttService: MqttService){
       channel.queueDeclare(MqttConfig.RABBITMQ_QUEUE, false, false, false, null);
       channel.basicPublish(null, MqttConfig.RABBITMQ_QUEUE, null, "Producer: Hello World! CARALEO".getBytes());
 
-      promise.success("hello world, porra!!!");
+      promise.success("hello world, veio!!!");
 
     }catch {
       case e: Throwable => promise.failure(e)
